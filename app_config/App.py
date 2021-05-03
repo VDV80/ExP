@@ -1,7 +1,7 @@
 class App:
 
     __conf = {
-        "data_store": "./eia_local_store",
+        "data_store": "../eia_local/",
         "eia_root": "https://www.eia.gov/outlooks/steo/",
         "eia_index_page": "outlook.php",
         "eia_archive_dir": "archive",

@@ -1,4 +1,4 @@
-from ep.ep import EIADataGetter, EIADataProcessor
+from ep.eia_data_aggregator import EIADataGetter, EIADataAggregator
 import pandas as pd
 
 if __name__ == '__main__':
@@ -6,7 +6,7 @@ if __name__ == '__main__':
     # d.update_local_eia_data()
     # output=[test_list[i:i + n] for i in range(0, len(test_list), n)]
     e = EIADataGetter()
-    EIADataProcessor.validate_eia_report_format()
+    EIADataAggregator.validate_eia_report_format()
 
     # df = pd.DataFrame(d.items(), columns=['ref_period', file_name])
     #
