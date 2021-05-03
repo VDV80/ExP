@@ -1,0 +1,25 @@
+{
+  "data_store": "./eia_local_store",
+  "eia_root": "https://www.eia.gov/outlooks/steo/",
+  "eia_index_page": "outlook.php",
+  "eia_archive_dir": "archive",
+  "eia_keys": [
+        "WTIPUUS",
+        "BREPUUS",
+        "MGWHUUS",
+        "DSWHUUS",
+        "D2WHUUS",
+        "MGRARUS",
+        "MGEIAUS",
+        "DSRTUUS",
+        "D2RCAUS",
+        "NGHHUUS",
+        "NGRCUUS",
+        "ESRCUUS"
+    ],
+  "months": ["Jan", "Feb", "Mar",
+             "Apr", "May", "Jun",
+             "Jul", "Aug", "Sep",
+             "Oct", "Nov", "Dec"
+             ]
+}
