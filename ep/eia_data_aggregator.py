@@ -2,7 +2,7 @@ import requests
 import pandas as pd
 import os
 import json
-from typing import Dict, List
+from typing import Dict
 
 from app_config.App import App
 

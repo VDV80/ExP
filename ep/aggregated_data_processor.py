@@ -1,6 +1,8 @@
 import os
 import pandas as pd
 
+from ep.statistics_utils import get_all_statistics
+
 
 class ForecastEvaluator:
 
@@ -14,28 +16,43 @@ class ForecastEvaluator:
 
     def aggregate_forecast_vs_actual(self):
         res = {}
-        for k in self.forecast_tables:
-            t = self.forecast_tables.get(k)
-            res_inner = []
-            for c in t.columns:
-                forecast_perios = 12
-                if ForecastEvaluator.shift_eia_date_my_months(c, 1 + forecast_perios) in t.columns:
-                    res_inner.append(
-                        (
-                            self.get_nth_month_forecast_from_vintage(c, forecast_perios, t),
-                            self.get_actual_for_forecasted_period(
-                                ForecastEvaluator.shift_eia_date_my_months(c, forecast_perios - 1), t
+        forecast_period_months_range = range(1, 13)
+        for forecast_period_months in forecast_period_months_range:
+            for k in self.forecast_tables:
+                t = self.forecast_tables.get(k)
+                res_inner = []
+                for c in t.columns:
+                    if ForecastEvaluator.shift_eia_date_my_months(c, 1 + forecast_period_months) in t.columns:
+                        res_inner.append(
+                            (
+                                self.get_nth_month_forecast_from_vintage(c, forecast_period_months, t),
+                                self.get_actual_for_forecasted_period(
+                                    ForecastEvaluator.shift_eia_date_my_months(c, forecast_period_months - 1), t
+                                )
                             )
                         )
-                    )
 
-            o = map(
-                lambda x: x[0] - x[1], res_inner
-            )
-            from matplotlib import pyplot as plt
-            plt.hist(list(o), bins=20)
-            plt.show()
-            res.update({k: res_inner})
+                # o = map(
+                #     lambda x: x[0] - x[1], res_inner
+                # )
+                # from matplotlib import pyplot as plt
+                # plt.hist(list(o), bins=20)
+                # plt.show()
+                res.update({k: res_inner})
+
+            self.print_statistics(res, forecast_period_months)
+
+    def print_statistics(self, res, forecast_period_months):
+        print(f"\n({forecast_period_months}months)\t\t\t\t\t\t\t")
+        for k in res:
+            print(f"\t{k}", end="")
+
+        print(f"\n")
+        for funct in get_all_statistics():
+            print(funct[0])
+            for k in res:
+                print("\t{:.2f}".format(funct[1](res.get(k))), end="")
+            print(f"\n")
 
     def get_nth_month_forecast_from_vintage(self, vintage, n_month, forecast_table):
         return \
